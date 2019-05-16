@@ -92,7 +92,15 @@ export default class AutoGrowTextInput extends React.Component {
 
   _blur = () => this._textInput.blur();
 
+  focus = () => this._textInput.focus();
+
+  blur = () => this._textInput.blur();
+
   _clear = () => this._textInput.clear();
+
+  clear = () => this._textInput.clear();
+
+    setNativeProps = (data) => this._textInput.setNativeProps(data);
   
   _minHeight = () => this.props.minHeight || 30;
 };
