@@ -88,9 +88,11 @@ export default class AutoGrowTextInput extends React.Component {
       : Math.max(this._minHeight(), actualHeight);
   }
 
-    _focus = () => this._textInput.focus();
+  _focus = () => this._textInput.focus();
 
-    _blur = () => this._textInput.blur();
+  _blur = () => this._textInput.blur();
+
+  _clear = () => this._textInput.clear();
   
   _minHeight = () => this.props.minHeight || 30;
 };
