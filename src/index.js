@@ -44,7 +44,8 @@ export default class AutoGrowTextInput extends React.Component {
 
     this.state = {
       limit,
-      height: this._minHeight()
+      height: this._minHeight(),
+      value: this.props.value || ''
     };
   }
 
@@ -52,9 +53,11 @@ export default class AutoGrowTextInput extends React.Component {
     const newProps = omit({
       ...this.props,
       onContentSizeChange: this._onContentSizeChange,
+      onChangeText: this._onChangeText
     }, [ 'style', 'maxLines' ]);
 
-    const { value, shrinkIfEmpty } = newProps;
+    const { shrinkIfEmpty } = newProps;
+    let value = this.state.value;
 
     const externalStyle = this.props.style;
     const textInputStyle = {
@@ -81,7 +84,12 @@ export default class AutoGrowTextInput extends React.Component {
     this.setState({ height });
     this.props.onResized && this.props.onResized();
   }
-  
+
+  _onChangeText = (value) => {
+    this.setState({ value });
+    this.props.onChangeText && this.props.onChangeText(value);
+  }
+
   _calcHeight(actualHeight: number, limit:? number) {
     return limit
       ? Math.min(limit, actualHeight)
@@ -100,7 +108,12 @@ export default class AutoGrowTextInput extends React.Component {
 
   clear = () => this._textInput.clear();
 
-    setNativeProps = (data) => this._textInput.setNativeProps(data);
-  
+  setNativeProps = (data) => {
+    if (data.text)
+      this.state.value = data.text;
+
+    this._textInput.setNativeProps(data)
+  };
+
   _minHeight = () => this.props.minHeight || 30;
 };
